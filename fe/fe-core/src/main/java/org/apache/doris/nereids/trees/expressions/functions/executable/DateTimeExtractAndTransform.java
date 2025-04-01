@@ -358,6 +358,26 @@ public class DateTimeExtractAndTransform {
         return DateV2Literal.fromJavaDateType(dateTruncHelper(date.toJavaDateType(), trunc.getValue()));
     }
 
+    @ExecFunction(name = "date_trunc")
+    public static Expression dateTrunc(StringLikeLiteral trunc, DateTimeLiteral date) {
+        return DateTimeLiteral.fromJavaDateType(dateTruncHelper(date.toJavaDateType(), trunc.getValue()));
+    }
+
+    @ExecFunction(name = "date_trunc")
+    public static Expression dateTrunc(StringLikeLiteral trunc, DateTimeV2Literal date) {
+        return DateTimeV2Literal.fromJavaDateType(dateTruncHelper(date.toJavaDateType(), trunc.getValue()));
+    }
+
+    @ExecFunction(name = "date_trunc")
+    public static Expression dateTrunc(StringLikeLiteral trunc, DateLiteral date) {
+        return DateLiteral.fromJavaDateType(dateTruncHelper(date.toJavaDateType(), trunc.getValue()));
+    }
+
+    @ExecFunction(name = "date_trunc")
+    public static Expression dateTrunc(StringLikeLiteral trunc, DateV2Literal date) {
+        return DateV2Literal.fromJavaDateType(dateTruncHelper(date.toJavaDateType(), trunc.getValue()));
+    }
+
     private static LocalDateTime dateTruncHelper(LocalDateTime dateTime, String trunc) {
         int year = dateTime.getYear();
         int month = dateTime.getMonthValue();
@@ -463,7 +483,7 @@ public class DateTimeExtractAndTransform {
     }
 
     private static LocalDateTime toMonday(LocalDateTime dateTime) {
-        LocalDateTime specialUpperBound = LocalDateTime.of(1970, 1, 4, 0, 0, 0);
+        LocalDateTime specialUpperBound = LocalDateTime.of(1970, 1, 4, 23, 59, 59, 999_999_999);
         LocalDateTime specialLowerBound = LocalDateTime.of(1970, 1, 1, 0, 0, 0);
         if (dateTime.isAfter(specialUpperBound) || dateTime.isBefore(specialLowerBound)) {
             return dateTime.plusDays(-dateTime.getDayOfWeek().getValue() + 1);
